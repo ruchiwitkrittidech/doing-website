@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Number Matching Game</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: rgb(161, 196, 236);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        div.g {
+            font-weight: 1000;
+        }
+
+        span.ga {
+            color: #ff0000;
+        }
+
+        div.b {
+            background-color: lavender;
+            width: 325px;
+            border-radius: 25px;
+            padding: 10px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 25% 25% 25% 25%;
+        }
+
+        button {
+            background-color: blueviolet;
+            color: aliceblue;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        div.c {
+            background-color: rgb(62, 141, 231);
+            border-radius: 5px;
+            padding: px;
+            margin: 5px;
+            width: 60px;
+            height: 60px;
+            color: aliceblue;
+            border-color: blue;
+            border-width: 2px;
+            border-style: double;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: xx-large;
+            font-weight: bolder;
+        }
+
+        .c:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #7532cc;
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .c.f {
+            background-color: #ff0000;
+            border-style: groove;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>🎮 Number Matching Game</h2>
+    <p>Click cards to find matching pairs of numbers!</p>
+    <div class="g">Moves:<span class="ga" id="m">0</span></div>
+    <div class="g">Pairs Found: <span class="ga" id="pf">0</span>/8</div>
+    <div class="b" id="b">
+
+    </div>
+    <button onclick="newgame()">New Game</button>
+
+    <script>
+        let canBro = true;
+        let pair = 0;
+        let flipped = [];
+        let moves = 0;
+        let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
+        console.log(numbers);
+        let gag = ['a', 'b', 'c', 'd'];
+        function random(a) {
+            return Math.round(Math.random() * a) % a
+        }
+        function swap(numbers, i, j) {
+            let they = numbers[j];
+            numbers[j] = numbers[i];
+            numbers[i] = they;
+        }
+        swap(1, 3);
+        console.log(gag);
+        console.log(random(4));
+        function shuffle(numbers) {
+            for (let i = 0; i < numbers.length; i++) {
+                console.log('iteration', i, 'numbers[i]', numbers[i]);
+                const r = random(numbers.length);
+                swap(numbers, i, r);
+                console.log('swap', r, '=>', numbers)
+            }
+        }
+        function newgame() {
+            alert('New Game is LOADING, Please wait Patiently for The Game to Start!')
+            canBro = true;
+            pair = 0;
+            flipped = [];
+            moves = 0;
+            createBoard()
+            document.getElementById('m').textContent = moves;
+            document.getElementById('pf').textContent = pair;
+        }
+        function createBoard() {
+            const gameBoard = document.getElementById('b');
+            gameBoard.innerHTML = '';
+            shuffle(numbers)
+            for (let i = 0; i < 16; i++) {
+                const card = document.createElement('div');
+                card.className = 'c';
+                card.innerHTML = '?';
+                card.setAttribute('data-number', numbers[i])
+                card.setAttribute('data-index', i)
+
+                card.onclick = () => {
+                    //alert(`Card ${i+1} clicked! Number is: ${numbers[i]}`)
+                    if (canBro) {
+                        if (card.classList.contains("f"))
+                            return;
+                        card.innerHTML = card.getAttribute('data-number');
+                        card.classList.add('f')
+                        flipped.push(card);
+                        if (flipped.length === 2) {
+                            moves++;
+                            document.getElementById('m').textContent = moves;
+                            canBro = false;
+                            setTimeout(() => {
+                                console.log("sigmameal", flipped)
+                                if (flipped[0].getAttribute('data-number') == flipped[1].getAttribute('data-number')) {
+                                    pair++;
+                                    document.getElementById('pf').textContent = pair;
+                                }
+                                else {
+                                    flipped[0].classList.remove('f');
+                                    flipped[1].classList.remove('f');
+                                    flipped[0].innerHTML = '?';
+                                    flipped[1].innerHTML = '?';
+                                }
+                                flipped = [];
+                                if (pair === 8) {
+                                    alert("You won! Now you'll get McDonald's Big-Mac!")
+                                }
+                                canBro = true;
+                            }, 1000);
+
+                        }
+                    }
+                };
+                gameBoard.appendChild(card);
+            }
+        }
+        createBoard()
+    </script>
+
+</body>
+
+</html>

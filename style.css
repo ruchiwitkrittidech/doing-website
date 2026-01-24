@@ -1,0 +1,25 @@
+body {
+    background-color: rgb(255, 0, 0);
+    }
+    h2 {
+        background-color: lightgoldenrodyellow; 
+        border: 15px solid rebeccapurple;
+        padding: 25px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    h1 {
+        background-color:darkkhaki;
+        font-family:Rage;
+    }
+    p {
+        color:gainsboro;
+        font-size: 110%;
+        text-align: center;
+    }
+    i {
+        font-size: 700%;
+    }
+    em {
+        font-size: 700%;
+    }
