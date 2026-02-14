@@ -110,7 +110,7 @@
         .f {
             background-color: rgb(255, 255, 255) !important;
         }
-        div#t {
+        div#t,div#n{
             color: aliceblue;
         }
     </style>
@@ -123,6 +123,9 @@
 
     </div>
     <div id="t">
+
+    </div>
+    <div id="n">
 
     </div>
     <script>
@@ -151,6 +154,7 @@
             }, 500)
         }
         function startgame() {
+            document.getElementById('n').innerHTML = ' '
             end_game = false
             rizz = []
             p_rizz = []
@@ -198,10 +202,13 @@
                     if (rizz.length === p_rizz.length) {
                         coreset = true
                     }
-                    if (coreset === true) {
+                    if (coreset && !end_game) {
                         console.log('Correct!')
                         p_rizz = []
                         skibidi()
+                    }
+                    if (end_game) {
+                        document.getElementById('n').innerHTML = 'You Lose, Please Try Again......'
                     }
                 };
                 gameBoard.appendChild(card);
