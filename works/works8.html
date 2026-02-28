@@ -77,16 +77,16 @@
 
 <body>
     <h2>🎮 Arithmetic Matching Game v1.0</h2>
-    <p>Click cards to find matching pairs of numbers that make 10!</p>
+    <p>Click cards to find matching pairs of numbers that when added together make 10!</p>
     <div class="g">Moves:<span class="ga" id="m">0</span></div>
     <div class="g">Pairs Found: <span class="ga" id="pf">0</span>/8</div>
-<select id="67">
-    <option value="2">Very Easy</option>
-    <option value="8">Easy</option>
-    <option value="18">Medium</option>
-    <option value="32">Hard</option>
-    <option value="50">Very Hard</option>
-</select>
+    <select id="67" onchange="heChooses()">
+        <option value="2">Very Easy</option>
+        <option value="8">Easy</option>
+        <option value="18">Medium</option>
+        <option value="32">Hard</option>
+        <option value="50">Very Hard</option>
+    </select>
     <div class="b" id="b">
 
     </div>
@@ -97,33 +97,36 @@
         let pair = 0;
         let flipped = [];
         let moves = 0;
+        let numbers = [];
         function heChooses() {
+            numbers = []
             const numOfpair = document.getElementById('67').value
-            let pairs = pairing()
-            console.log (pairs)
+            for (let i = 0; i < numOfpair / 2; i++) {
+                let pairs = pairing()
+                numbers.push(pairs);
+                console.log(pairs)
+            }
+            console.log(numbers);
+            createBoard()
+            
         }
         heChooses()
-        let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
-        console.log(numbers);
         let gag = ['a', 'b', 'c', 'd'];
         function random(a) {
             return Math.round(Math.random() * a) % a
         }
         function pairing() {
-        let num1 = random(-100)
-        let num2 = random(100)
-        let num3 = 10 - num1
-        let num4 = 10 - num2
-        return [num1, num2, num3, num4]
+            let num1 = random(-100)
+            let num2 = random(100)
+            let num3 = 10 - num1
+            let num4 = 10 - num2
+            return [num1, num2, num3, num4]
         }
         function swap(numbers, i, j) {
             let they = numbers[j];
             numbers[j] = numbers[i];
             numbers[i] = they;
         }
-        swap(1, 3);
-        console.log(gag);
-        console.log(random(4));
         function shuffle(numbers) {
             for (let i = 0; i < numbers.length; i++) {
                 console.log('iteration', i, 'numbers[i]', numbers[i]);
@@ -146,7 +149,9 @@
             const gameBoard = document.getElementById('b');
             gameBoard.innerHTML = '';
             shuffle(numbers)
-            for (let i = 0; i < 16; i++) {
+            numOfpair = document.getElementById('67').value
+            gameBoard.style.gridTemplateColumns="repeat(2,75px)"
+            for (let i = 0; i < numOfpair  * 2; i++) {
                 const card = document.createElement('div');
                 card.className = 'c';
                 card.innerHTML = '?';
