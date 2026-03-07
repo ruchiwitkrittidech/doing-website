@@ -20,12 +20,10 @@
 
         div.b {
             background-color: lavender;
-            width: 325px;
             border-radius: 25px;
             padding: 10px;
             margin: 20px auto;
             display: grid;
-            grid-template-columns: 25% 25% 25% 25%;
         }
 
         button {
@@ -76,7 +74,7 @@
 </head>
 
 <body>
-    <h2>🎮 Arithmetic Matching Game v1.0</h2>
+    <h2>🎮 Arithmetic Matching Game v0.1.0</h2>
     <p>Click cards to find matching pairs of numbers that when added together make 10!</p>
     <div class="g">Moves:<span class="ga" id="m">0</span></div>
     <div class="g">Pairs Found: <span class="ga" id="pf">0</span>/8</div>
@@ -103,12 +101,14 @@
             const numOfpair = document.getElementById('67').value
             for (let i = 0; i < numOfpair / 2; i++) {
                 let pairs = pairing()
-                numbers.push(pairs);
-                console.log(pairs)
+                for (let ia = 0; ia < pairs.length; ia++) {
+                    numbers.push(pairs[ia]);
+                    console.log(pairs)
+                }
             }
-            console.log(numbers);
+            console.log('nums', numbers);
             createBoard()
-            
+
         }
         heChooses()
         let gag = ['a', 'b', 'c', 'd'];
@@ -150,8 +150,11 @@
             gameBoard.innerHTML = '';
             shuffle(numbers)
             numOfpair = document.getElementById('67').value
-            gameBoard.style.gridTemplateColumns="repeat(2,75px)"
-            for (let i = 0; i < numOfpair  * 2; i++) {
+            let square = Math.sqrt(numOfpair * 2)
+            let BW = square * 75
+            gameBoard.style.gridTemplateColumns = "repeat(" + square + ",75px)"
+            gameBoard.style.width = BW + "px"
+            for (let i = 0; i < numOfpair * 2; i++) {
                 const card = document.createElement('div');
                 card.className = 'c';
                 card.innerHTML = '?';
@@ -172,7 +175,8 @@
                             canBro = false;
                             setTimeout(() => {
                                 console.log("sigmameal", flipped)
-                                if (flipped[0].getAttribute('data-number') == flipped[1].getAttribute('data-number')) {
+                                console.log(flipped[0].getAttribute('data-number') + flipped[1].getAttribute('data-number'))
+                                if (flipped[0].getAttribute('data-number') + flipped[1].getAttribute('data-number') == 10) {
                                     pair++;
                                     document.getElementById('pf').textContent = pair;
                                 }
