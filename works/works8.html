@@ -77,13 +77,14 @@
     <h2>🎮 Arithmetic Matching Game v0.1.0</h2>
     <p>Click cards to find matching pairs of numbers that when added together make 10!</p>
     <div class="g">Moves:<span class="ga" id="m">0</span></div>
-    <div class="g">Pairs Found: <span class="ga" id="pf">0</span>/8</div>
+    <div class="g">Pairs Found: <span class="ga" id="pf">0</span>/<span class="g" id="pfa"></span></div>
     <select id="67" onchange="heChooses()">
         <option value="2">Very Easy</option>
         <option value="8">Easy</option>
         <option value="18">Medium</option>
         <option value="32">Hard</option>
         <option value="50">Very Hard</option>
+        <option value="72">Insane</option>
     </select>
     <div class="b" id="b">
 
@@ -103,10 +104,8 @@
                 let pairs = pairing()
                 for (let ia = 0; ia < pairs.length; ia++) {
                     numbers.push(pairs[ia]);
-                    console.log(pairs)
                 }
             }
-            console.log('nums', numbers);
             createBoard()
 
         }
@@ -129,10 +128,8 @@
         }
         function shuffle(numbers) {
             for (let i = 0; i < numbers.length; i++) {
-                console.log('iteration', i, 'numbers[i]', numbers[i]);
                 const r = random(numbers.length);
                 swap(numbers, i, r);
-                console.log('swap', r, '=>', numbers)
             }
         }
         function newgame() {
@@ -150,6 +147,7 @@
             gameBoard.innerHTML = '';
             shuffle(numbers)
             numOfpair = document.getElementById('67').value
+            document.getElementById('pfa').textContent = numOfpair;
             let square = Math.sqrt(numOfpair * 2)
             let BW = square * 75
             gameBoard.style.gridTemplateColumns = "repeat(" + square + ",75px)"
@@ -162,6 +160,7 @@
                 card.setAttribute('data-index', i)
 
                 card.onclick = () => {
+                    numOfpair = document.getElementById('67').value
                     //alert(`Card ${i+1} clicked! Number is: ${numbers[i]}`)
                     if (canBro) {
                         if (card.classList.contains("f"))
@@ -174,9 +173,7 @@
                             document.getElementById('m').textContent = moves;
                             canBro = false;
                             setTimeout(() => {
-                                console.log("sigmameal", flipped)
-                                console.log(flipped[0].getAttribute('data-number') + flipped[1].getAttribute('data-number'))
-                                if (flipped[0].getAttribute('data-number') + flipped[1].getAttribute('data-number') == 10) {
+                                if (parseInt(flipped[0].getAttribute('data-number')) + parseInt(flipped[1].getAttribute('data-number')) == 10) {
                                     pair++;
                                     document.getElementById('pf').textContent = pair;
                                 }
@@ -187,7 +184,7 @@
                                     flipped[1].innerHTML = '?';
                                 }
                                 flipped = [];
-                                if (pair === 8) {
+                                if (pair === parseInt(numOfpair)) {
                                     alert("You won! Now you'll get McDonald's Big-Mac!")
                                 }
                                 canBro = true;
