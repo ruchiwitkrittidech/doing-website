@@ -20,8 +20,80 @@
         <input type="text" id="sd2" name="sd2"><br>
         <label for="sd3"> Second date(d): </label><br>
         <input type="text" id="sd3" name="sd3"><br>
-        <input type="button" value="Subscribe"><br>
+        <input type="button" value="Subscribe" onclick="compareBirthdate()"><br>
     </form>
+    <p id="result"></p>
+    <script>
+        function compareBirthdate() {
+            let result = ""
+            const firstPyear = document.getElementById('fd1').value
+            const firstPmonth = document.getElementById('fd2').value
+            const firstPday = document.getElementById('fd3').value
+            const secondPyear = document.getElementById('sd1').value
+            const secondPmonth = document.getElementById('sd2').value
+            const secondPday = document.getElementById('sd3').value
+            if (firstPyear < 1900 || firstPyear > 2026) {
+                result = "Invalid year on first date, Please recheck it."
+                document.getElementById("result").innerHTML = result
+                return;
+            }
+            if (secondPyear < 1900 || secondPyear > 2026) {
+                result = "Invalid year on second date, Please recheck it."
+                document.getElementById("result").innerHTML = result
+                return;
+            }
+            if (firstPmonth < 1 || firstPmonth > 12) {
+                result = "Invalid month on first date, Please recheck it."
+                document.getElementById("result").innerHTML = result
+                return;
+            }
+            if (secondPmonth < 1 || secondPmonth > 12) {
+                result = "Invalid month on second date, Please recheck it."
+                document.getElementById("result").innerHTML = result
+                return;
+            }
+            if (firstPday < 1 || firstPday > 31) {
+                result = "Invalid day on first date, Please recheck it."
+                document.getElementById("result").innerHTML = result
+                return;
+            }
+            if (secondPday < 1 || secondPday > 31) {
+                result = "Invalid day on second date, Please recheck it."
+                document.getElementById("result").innerHTML = result
+                return;
+            }
+            console.log(firstPyear, firstPmonth, firstPday)
+            console.log(secondPyear, secondPmonth, secondPday)
+            if (firstPyear === secondPyear) {
+                if (firstPmonth === secondPmonth) {
+                    if (firstPday === secondPday) {
+                        result = 0
+                    }
+                    else if (firstPday > secondPday) {
+                        result = 2
+                    }
+                    else {
+                        result = 1
+                    }
+                }
+                else if (firstPmonth > secondPmonth) {
+                    result = 2
+                }
+                else {
+                    result = 1
+                }
+            }
+            else if (firstPyear > secondPyear) {
+                result = 2
+            }
+            else {
+                result = 1
+            }
+            console.log(result)
+            document.getElementById("result").innerHTML = result
+        }
+    </script>
+
 </body>
 
 </html>
