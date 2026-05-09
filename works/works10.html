@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> HTML Forms </title>
+</head>
+
+<body>
+    <form id="myForm">
+
+        <label for="fn"> Full Name: </label><br>
+        <input type="text" id="fn" name="fn"><br>
+        <label for="eml"> Email: </label><br>
+        <input type="email" id="eml" name="eml"><br>
+        <label for="age"> Age: </label><br>
+        <input type="number" id="age" name="age"><br>
+        <label for="hbd"> Date of Birth: </label><br>
+        <input type="date" id="hbd" name="hbd"><br>
+        <label for="pswrd"> Password: </label><br>
+        <input type="password" id="pswrd" name="pswrd"><br>
+        <label for="cntry"> Country: </label><br>
+        <select id="cntry" name="cntry">
+            <option value="USA">United States of America</option>
+            <option value="UK">United Kingdoms</option>
+            <option value="CHNA">China</option>
+            <option value="Congo">Democratic Republic of the Congo</option>
+            <option value="T&T">Trinidad and Tobago</option>
+            <option value="THAILAND!">Thailand</option>
+        </select>
+        <br> Gender: <br>
+        <input type="radio" id="M" name="gndr">
+        <label for="M"> Male </label><br>
+        <input type="radio" id="F" name="gndr">
+        <label for="F"> Female </label><br>
+        <input type="radio" id="RNBW" name="gndr">
+        <label for="RNBW"> LGBTQ+++ </label><br>
+        <input type="radio" id="OTHR" name="gndr">
+        <label for="OTHR"> Other </label><br>
+        <br> Interests: <br>
+        <input type="checkbox" id="sprt" name="intrsts">
+        <label for="sprt"> Sports </label><br>
+        <input type="checkbox" id="msc" name="intrsts">
+        <label for="msc"> Music </label><br>
+        <input type="checkbox" id="rdng" name="intrsts">
+        <label for="rdng"> Reading </label><br>
+        <input type="checkbox" id="cdng" name="intrsts">
+        <label for="cdng"> Coding </label><br>
+        <label for="msg"> Message: </label><br>
+        <textarea id="msg" name="msg"> </textarea><br>
+        <input type="button" value="Subscribe" onclick="compareBirthdate()"><br>
+    </form>
+    <script>
+        const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyYG6ijsylbuCD4nner7ej3Mrl6opCvqxECZ7naywzK0rYKWJDpc5RZipb4axRMZQ2n/exec';
+
+        document.getElementById('myForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {};
+
+            // Handle checkboxes with multiple values (e.g. interests)
+            for (const [key, value] of formData.entries()) {
+                if (data[key] !== undefined) {
+                    data[key] = [].concat(data[key], value);
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            try {
+                const response = await fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data),
+                    redirect: 'follow'
+                });
+                if (response.ok) {
+                    alert('Form submitted successfully!');
+                    this.reset();
+                } else {
+                    alert('Submission failed: ' + response.status);
+                }
+            } catch (error) {
+                alert('Error submitting form: ' + error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
